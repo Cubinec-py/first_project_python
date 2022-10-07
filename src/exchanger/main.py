@@ -1,4 +1,4 @@
-from exchanger.classes.exchanger_final import ExchangerFinal
+from src.exchanger.classes.exchanger_final import ExchangerFinal
 
 
 def run_exchanger():

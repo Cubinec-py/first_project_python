@@ -1,9 +1,13 @@
 import csv
+import os
+
+cwd = os.getcwd()
+available_currency_csv = os.path.join(cwd + '/const', 'available_currency.csv')
 
 
 def update_avaliable_csv(address, new_value):
 
-    filepath = 'src/exchanger/const/available_currency.csv'
+    filepath = available_currency_csv
     row_num = address
 
     with open(filepath, 'r+t') as csvfile:
