@@ -1,11 +1,18 @@
-from exchanger.classes.exchange import Exchange
-from exchanger.classes.avaliable import Avaliable
-from exchanger.classes.exchanger_usd import ExchangerUsd
-from exchanger.classes.exchanger_uah import ExchangerUah
+from src.exchanger.classes.exchange import Exchange
+from src.exchanger.classes.avaliable import Avaliable
+from src.exchanger.classes.exchanger_usd import ExchangerUsd
+from src.exchanger.classes.exchanger_uah import ExchangerUah
+
+from pathlib import Path
 
 import json
 import requests
 import csv
+import os
+
+cwd = os.getcwd()
+exchange_rate_csv = os.path.join(cwd + '/const', 'exchange_rate_data.csv')
+available_currency_csv = os.path.join(cwd + '/const', 'available_currency.csv')
 
 try:
     get_request = requests.get('https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5')
@@ -13,7 +20,7 @@ try:
         raise Exception('API request unsuccessful.')
     else:
         dict_exchanges = json.loads(get_request.content)
-        with open('src/exchanger/const/exchange_rate_data.csv', 'w') as csv_file:
+        with open(exchange_rate_csv, 'w') as csv_file:
             val = ['ccy', 'base_ccy', 'buy', 'sale']
             j = csv.DictWriter(csv_file, fieldnames=val)
             j.writeheader()
@@ -26,7 +33,7 @@ except requests.exceptions.ConnectionError:
 
 def result():
     results = []
-    with open('src/exchanger/const/exchange_rate_data.csv') as csv_file:
+    with open(exchange_rate_csv) as csv_file:
         reader = csv.DictReader(csv_file)
         for row in reader:
             results.append(row)
@@ -35,7 +42,7 @@ def result():
 
 def available_currency():
     available_currency = []
-    with open('src/exchanger/const/available_currency.csv') as csv_file:
+    with open(available_currency_csv) as csv_file:
         reader = csv.DictReader(csv_file)
         for row in reader:
             available_currency.append(row)
